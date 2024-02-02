@@ -11,7 +11,9 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
     "paths": {
+      "*": ["node_modules/*"],
       "@features/*": ["src/features/*"],
       "@entities/*": ["src/entities/*"]
     }

@@ -1,36 +1,55 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { AdministradorService } from './administrador.service';
-import { CreateAdministradorDto } from './dto/create-administrador.dto';
-import { UpdateAdministradorDto } from './dto/update-administrador.dto';
-import { Administrador } from '../../entities/administrador.entity';
+import { Inventario } from '@entities/inventario.entity';
+import { ProductoMedico } from '@entities/producto-medico.entity';
 
 @Controller('administrador')
 export class AdministradorController {
   constructor(private readonly administradorService: AdministradorService) {}
 
-  /*
-  @Post()
-  create(@Body() createAdministradorDto: CreateAdministradorDto) {
-    return this.administradorService.create(createAdministradorDto);
+  @Get('/producto/:nombreProducto')
+  async consultarDetallesProducto(
+    @Param('nombreProducto') nombreProducto: string,
+  ): Promise<ProductoMedico[]> {
+    console.log('querying producto');
+    return await this.administradorService.consultarDetallesProducto(
+      nombreProducto,
+    );
   }
 
-  @Get()
-  findAll() {
-    return this.administradorService.findAll();
+  @Post('/producto')
+  async registrarProductoMedico(
+    @Body()
+    createProductoDto: {
+      fechaCaducidad: string;
+      fechaFabricacion: string;
+      ubicacion: string;
+      cantidad: number;
+      almacen: string;
+      administradorId: number;
+      productoMedicoId: number;
+    },
+  ): Promise<Inventario> {
+    try {
+      return await this.administradorService.registrarProductoMedico(
+        createProductoDto.fechaCaducidad,
+        createProductoDto.fechaFabricacion,
+        createProductoDto.ubicacion,
+        createProductoDto.cantidad,
+        createProductoDto.almacen,
+        createProductoDto.administradorId,
+        createProductoDto.productoMedicoId,
+      );
+    } catch (error) {
+      console.error('Error registering product:', error);
+      throw new InternalServerErrorException('Failed to register product');
+    }
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: number): Promise<Administrador | undefined> {
-    return this.administradorService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateAdministradorDto: UpdateAdministradorDto,
-  ) {
-    return this.administradorService.update(+id, updateAdministradorDto);
-  }
-    */
 }

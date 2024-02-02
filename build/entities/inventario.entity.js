@@ -1,4 +1,5 @@
 "use strict";
+// inventario.entity.ts
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,41 +11,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Inventario = void 0;
-// inventario.entity.ts
 var typeorm_1 = require("typeorm");
-var producto_entity_1 = require("./producto.entity");
-var gestor_inventario_entity_1 = require("./gestor-inventario.entity");
+var administrador_entity_1 = require("./administrador.entity");
+var producto_medico_entity_1 = require("./producto-medico.entity");
+var log_entity_1 = require("./log.entity");
 var Inventario = /** @class */ (function () {
     function Inventario() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], Inventario.prototype, "lote", void 0);
+    ], Inventario.prototype, "id", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Inventario.prototype, "fechaCaducidad", void 0);
+        (0, typeorm_1.Column)({ name: 'cantidad' }),
+        __metadata("design:type", Number)
+    ], Inventario.prototype, "cantidad", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ name: 'fecha_fabricacion' }),
         __metadata("design:type", String)
     ], Inventario.prototype, "fechaFabricacion", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", Number)
-    ], Inventario.prototype, "cantidadExistencias", void 0);
+        (0, typeorm_1.Column)({ name: 'fecha_caducidad' }),
+        __metadata("design:type", String)
+    ], Inventario.prototype, "fechaCaducidad", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ name: 'almacen' }),
+        __metadata("design:type", String)
+    ], Inventario.prototype, "almacen", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ name: 'ubicacion' }),
         __metadata("design:type", String)
     ], Inventario.prototype, "ubicacion", void 0);
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return producto_entity_1.Producto; }, function (producto) { return producto.inventarios; }),
-        __metadata("design:type", producto_entity_1.Producto)
-    ], Inventario.prototype, "producto", void 0);
+        (0, typeorm_1.ManyToOne)(function () { return administrador_entity_1.Administrador; }, function (administrador) { return administrador.inventarios; }, { cascade: true }),
+        __metadata("design:type", administrador_entity_1.Administrador)
+    ], Inventario.prototype, "administrador", void 0);
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return gestor_inventario_entity_1.GestorInventario; }, function (gestorInventario) { return gestorInventario.inventarios; }),
-        __metadata("design:type", gestor_inventario_entity_1.GestorInventario)
-    ], Inventario.prototype, "gestorInventario", void 0);
+        (0, typeorm_1.ManyToOne)(function () { return producto_medico_entity_1.ProductoMedico; }, function (productoMedico) { return productoMedico.inventario; }),
+        __metadata("design:type", producto_medico_entity_1.ProductoMedico)
+    ], Inventario.prototype, "productoMedico", void 0);
+    __decorate([
+        (0, typeorm_1.OneToMany)(function () { return log_entity_1.InventarioUpdateLog; }, function (updateLog) { return updateLog.inventario; }),
+        __metadata("design:type", Array)
+    ], Inventario.prototype, "updateLogs", void 0);
     Inventario = __decorate([
         (0, typeorm_1.Entity)()
     ], Inventario);

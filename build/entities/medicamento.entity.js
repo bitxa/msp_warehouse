@@ -25,30 +25,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Medicamento = void 0;
-// medicamento.entity.ts
 var typeorm_1 = require("typeorm");
-var producto_entity_1 = require("./producto.entity");
+var producto_medico_entity_1 = require("./producto-medico.entity");
 var Medicamento = /** @class */ (function (_super) {
     __extends(Medicamento, _super);
     function Medicamento() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ name: 'composicion' }),
         __metadata("design:type", String)
-    ], Medicamento.prototype, "composicion", void 0);
+    ], Medicamento.prototype, "nombreCientifico", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
+        (0, typeorm_1.Column)({ name: 'forma_farmaceutica' }),
         __metadata("design:type", String)
-    ], Medicamento.prototype, "laboratorio", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Medicamento.prototype, "nombreComercial", void 0);
+    ], Medicamento.prototype, "formaFarmaceutica", void 0);
     Medicamento = __decorate([
-        (0, typeorm_1.ChildEntity)()
+        (0, typeorm_1.Entity)()
     ], Medicamento);
     return Medicamento;
-}(producto_entity_1.Producto));
+}(producto_medico_entity_1.ProductoMedico));
 exports.Medicamento = Medicamento;
 //# sourceMappingURL=medicamento.entity.js.map

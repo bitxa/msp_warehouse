@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 //USER
 import { User } from '../../entities/user.entity';
-import { UserDto } from '../../DTO/user.dto';
+import { UserDto } from '@features/users/dto/user.dto';
 
 import * as bcrypt from 'bcrypt';
 

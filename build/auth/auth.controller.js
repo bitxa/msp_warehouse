@@ -54,7 +54,7 @@ var common_1 = require("@nestjs/common");
 var auth_service_1 = require("./auth.service");
 var local_auth_guard_1 = require("./local-auth.guard");
 var users_service_1 = require("../features/users/users.service");
-var user_dto_1 = require("../DTO/user.dto");
+var user_dto_1 = require("../features/users/dto/user.dto");
 var AuthController = /** @class */ (function () {
     function AuthController(authService, usersService) {
         this.authService = authService;
@@ -74,12 +74,11 @@ var AuthController = /** @class */ (function () {
             });
         });
     };
-    var _a;
     __decorate([
         (0, common_1.Post)('register'),
         __param(0, (0, common_1.Body)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [typeof (_a = typeof user_dto_1.UserDto !== "undefined" && user_dto_1.UserDto) === "function" ? _a : Object]),
+        __metadata("design:paramtypes", [user_dto_1.UserDto]),
         __metadata("design:returntype", Promise)
     ], AuthController.prototype, "register", null);
     __decorate([

@@ -2,27 +2,24 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  JoinColumn,
-  OneToOne,
+  TableInheritance,
 } from 'typeorm';
-import { Inventario } from './inventario.entity';
 
 @Entity()
-export class UsuarioAutorizado {
-  @Column()
-  private areaResponsable: string;
-  @Column()
-  private cargo: string;
-  @Column()
-  private correo: string;
-  @Column()
-  private genero: string;
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
+export abstract class UsuarioAutorizado {
   @PrimaryGeneratedColumn()
-  private id: number;
+  id: number;
 
-  @Column()
-  private nombre: string;
-  @OneToOne(() => Inventario, (inventario) => inventario.usuarioAutorizado)
-  @JoinColumn()
-  inventario: Inventario;
+  @Column({ name: 'nombre' })
+  nombre: string;
+
+  @Column({ name: 'celular' })
+  celular: string;
+
+  @Column({ name: 'genero' })
+  genero: string;
+
+  @Column({ name: 'correo' })
+  correo: string;
 }

@@ -1,49 +1,49 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Administrador } from '@entities/administrador.entity';
-import { CreateAdministradorDto } from './dto/create-administrador.dto';
-import { UpdateAdministradorDto } from './dto/update-administrador.dto';
+import { Inventario } from '@entities/inventario.entity';
+import { InventarioService } from '@features/inventario/inventario.service';
+import { Like } from 'typeorm';
+import { Medicamento } from '@entities/medicamento.entity';
+import { ProductoMedico } from '@entities/producto-medico.entity';
 
 @Injectable()
 export class AdministradorService {
-  constructor(
-    @InjectRepository(Administrador)
-    private administradoresRepository: Repository<Administrador>,
-  ) {}
-  /*
-  create(
-    createAdministradorDto: CreateAdministradorDto,
-  ): Promise<Administrador> {
-    const administrador = this.administradoresRepository.create(
-      createAdministradorDto,
-    );
-    return this.administradoresRepository.save(administrador);
-  }
+  @InjectRepository(Medicamento)
+  private productoMedicoRepository: Repository<ProductoMedico>;
 
-  findAll(): Promise<Administrador[]> {
-    return this.administradoresRepository.find({
-      relations: ['ordenesReubicacion', 'gestorInventario'],
+  constructor(private inventarioService: InventarioService) {}
+  async consultarDetallesProducto(
+    nombreProducto: string,
+  ): Promise<ProductoMedico[]> {
+    const productos = await this.productoMedicoRepository.find({
+      where: { nombreComercial: Like(`%${nombreProducto}%`) },
     });
+
+    return productos;
   }
 
+  async registrarProductoMedico(
+    fechaCaducidad: string,
+    fechaFabricacion: string,
+    ubicacion: string,
+    cantidad: number,
+    almacen: string,
+    administradorId: number,
+    productoMedicoId: number,
+  ): Promise<Inventario> {
+    const nuevoInventario =
+      await this.inventarioService.createAndSaveInventario({
+        fechaCaducidad,
+        fechaFabricacion,
+        ubicacion,
+        cantidad,
+        almacen,
+        administradorId,
+        productoMedicoId,
+      });
 
-  findOne(id: number): Promise<Administrador> {
-    return this.administradoresRepository.findOneBy({ id });
-  }
-
-  update(
-    id: number,
-    updateAdministradorDto: UpdateAdministradorDto,
-  ): Promise<Administrador> {
-    return this.administradoresRepository.save({
-      id,
-      ...updateAdministradorDto,
-    });
-  }
-  */
-  remove(id: number): Promise<void> {
-    return this.administradoresRepository.delete(id).then(() => {});
+    await this.inventarioService.actualizarExistencias(nuevoInventario.id);
+    return nuevoInventario;
   }
 }

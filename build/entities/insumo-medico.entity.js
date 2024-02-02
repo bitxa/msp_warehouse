@@ -24,31 +24,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateInsumoMedicoDto = void 0;
-// create-insumo-medico.dto.ts
-var class_validator_1 = require("class-validator");
-var create_producto_dto_1 = require("../features/producto/dto/create-producto.dto");
-var CreateInsumoMedicoDto = /** @class */ (function (_super) {
-    __extends(CreateInsumoMedicoDto, _super);
-    function CreateInsumoMedicoDto() {
+exports.Insumo = void 0;
+var typeorm_1 = require("typeorm");
+var producto_medico_entity_1 = require("./producto-medico.entity");
+var Insumo = /** @class */ (function (_super) {
+    __extends(Insumo, _super);
+    function Insumo() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
-        (0, class_validator_1.IsString)(),
-        (0, class_validator_1.IsNotEmpty)(),
+        (0, typeorm_1.Column)({ name: 'tipo' }),
         __metadata("design:type", String)
-    ], CreateInsumoMedicoDto.prototype, "tipo", void 0);
-    __decorate([
-        (0, class_validator_1.IsString)(),
-        (0, class_validator_1.IsNotEmpty)(),
-        __metadata("design:type", String)
-    ], CreateInsumoMedicoDto.prototype, "material", void 0);
-    __decorate([
-        (0, class_validator_1.IsString)(),
-        (0, class_validator_1.IsNotEmpty)(),
-        __metadata("design:type", String)
-    ], CreateInsumoMedicoDto.prototype, "instruccionesUso", void 0);
-    return CreateInsumoMedicoDto;
-}(create_producto_dto_1.CreateProductoDto));
-exports.CreateInsumoMedicoDto = CreateInsumoMedicoDto;
+    ], Insumo.prototype, "tipo", void 0);
+    Insumo = __decorate([
+        (0, typeorm_1.Entity)()
+    ], Insumo);
+    return Insumo;
+}(producto_medico_entity_1.ProductoMedico));
+exports.Insumo = Insumo;
 //# sourceMappingURL=insumo-medico.entity.js.map
